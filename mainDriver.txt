@@ -1,0 +1,203 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file is the magnum opus. When i print vectors or initialize variables, the magic can happen here. When 
+functions are called, you guessed it, they are being called here.
+*/
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include "Exercise.h"
+#include "defs.h"
+using namespace std;
+//checks file amount and if openable for each
+int main( int argc, char *argv[] ) {
+        if (argc != 4) {
+                cout << "<executable> <members file> <METs file> <activity levels file>" << endl;
+                return 1;
+        }
+        ifstream inFile (argv[1]);
+        ifstream metsFile(argv[2]);
+        ifstream activityFile(argv[3]);
+        if(!inFile.is_open()) {
+                cout << "File could not be opened." << endl;
+                return 2;
+        }
+        if (!metsFile.is_open()) {
+                cout << "File " << argv[2] << " could not be opened." << endl;
+                return 2;
+        }
+        if (!activityFile.is_open()) {
+                cout << "File " << argv[3] << " could not be opened." << endl;
+                return 2;
+        }
+
+        int weight = 0;
+        int input = 0;
+        int id = 0;
+        int adjust = 0;
+//initializes vectors
+        vector<Exercise> exercises;
+        vector<double> activityLevels;
+        vector<Person> members;
+        initializeExercises(exercises, metsFile);
+        initializeMembers(members, inFile);
+        initializeActivityLevels(activityLevels, activityFile);
+	//use do since nothing else worked for running without errors
+        do {
+                printMenu();
+                cin >> input;
+	
+                // ensures clean cin input
+                while (cin.fail() || input < 1 || input > 7) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    
+                    cin >> input;
+                }
+		//overarching logic statement. If 1 selected, add new member function memeber called 
+                if (input == 1) {
+                        addNewMember(members);
+                }
+		//if 2 selected, print lis of members
+                else if (input == 2) {
+                        printListOfMembers(members);
+                }
+		//if 3, print member IDs
+                else if (input == 3) {
+                        cout << "Enter member ID number: ";
+                        cin >> id;
+                        
+                        if (id > 0 && (size_t)(id - 1) < members.size()) {
+                            printMemberInfo(members, id);
+                        } else {
+                            cout << "Invalid member ID." << endl;
+                        }
+                }
+		//if 4, enter new ID
+                else if (input == 4) {
+                        cout << "Enter member ID number: ";
+                        cin >> id;
+                        //loop for each part that can be adjusted
+                        if (id > 0 && (size_t)(id - 1) < members.size()) {
+                            adjust = 0;
+                            while (adjust != 5) {
+                                printPersonalMenu(members, id);
+                                cin >> adjust;
+                                if (cin.fail() || adjust < 1 || adjust > 5) {
+                                    cin.clear();
+                                    cin.ignore(1000, '\n');
+                                    continue;
+                                }
+                                if (adjust == 1) {
+                                    string newName;
+                                    cout << "Enter new name: ";
+                                    cin.ignore(1000, '\n');
+                                    getline(cin, newName);
+                                    members[id-1].setName(newName);
+                                }
+                                else if (adjust == 2) {
+                                    int newWeight;
+                                    cout << "Enter weight: ";
+                                    cin >> newWeight;
+                                    if (cin.fail()) {
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                    }
+                                    members[id-1].setWeight(newWeight);
+                                }
+                                else if (adjust == 3) {
+                                    int newHeight;
+                                    cout << "Enter height: ";
+                                    cin >> newHeight;
+                                    if (cin.fail()) {
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                    }
+                                    members[id-1].setHeight(newHeight);
+                                }
+                                else if (adjust == 4) {
+                                    int newAge;
+                                    cout << "Enter age: ";
+                                    cin >> newAge;
+                                    if (cin.fail()) {
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                    }
+                                    members[id-1].setAge(newAge);
+                                }
+                            }
+                        }
+                        else {
+                            cout << "Invalid member ID." << endl;
+                        }
+                }
+		//if 5, enter member id
+                else if (input == 5) {
+                        cout << "Enter member ID number: ";
+                        cin >> id;
+                        
+                        cout << endl;
+                        bool found = false;
+                        for (size_t i = 0; i < members.size() && !found; i++) {
+                            if (members[i].getPersonID() == id) {
+                                caloriecalculator(members, activityLevels, id);
+                                found = true;
+                               
+                            }
+                        }
+                        if (!found) {
+                            cout << "Invalid member ID." << endl;
+                        }
+                }
+		//returns exercises if 6 is inputted
+
+                else if (input == 6) {
+                        cout << "Enter member ID number: ";
+                        cin >> id;
+
+                        if (id > 0 && (size_t)(id - 1) < members.size()) {
+                                weight = members[id-1].getWeight();
+                                printListOfExercises(exercises);
+                                
+                                int exerciseChoice;
+                                cout << "Choose exercise: ";
+                                cin >> exerciseChoice;
+                                
+                                if (exerciseChoice >= 1 && exerciseChoice <= (int)exercises.size()) {
+                                    int duration;
+                                    cout << "Duration (minutes): ";
+                                    cin >> duration;
+                                    cout << endl;
+                                    
+                                    double MET = exercises[exerciseChoice-1].getMETvalue();
+                                    double calories = duration * (MET * 3.5 * (weight / 2.205)) / 200;
+                                    cout << "The total calories burned: " << static_cast<int>(calories + 0.5) << endl;
+                                    cout << endl;
+                                }
+                        }
+                        else {
+                            cout << "Invalid member ID." << endl;
+                        }
+                }
+//ensures no exit project exit input as a no go
+        } while (input != 7);
+	//utilizies input file
+        ofstream outFile("updatedMembers.txt");
+        if (outFile.is_open()) {
+            for  (size_t i = 0; i < members.size(); i++) {
+                outFile << members[i].getName() << endl;
+                outFile << members[i].getPersonID() << endl;
+                outFile << members[i].getWeight() << endl;
+                outFile << members[i].getHeight() << endl;
+                outFile << members[i].getAge() << endl;
+                outFile << members[i].getGender() << endl;
+            }
+            outFile.close();
+        }
+
+        return 0;
+}

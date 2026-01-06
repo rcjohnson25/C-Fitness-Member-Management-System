@@ -1,0 +1,95 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file contains many functions that ar eused in the general logic of the mainDriver loop
+*/
+
+#include "defs.h"
+#include <string>
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+//inits vars
+void initializeMembers(vector<Person> &members,ifstream &inFile) {
+        string name;
+	int personID;
+	int weight;
+	int height;
+	int age;
+	int gender;
+       //used get line and infiles to grab var data
+        while(getline(inFile, name)) {
+                inFile >> personID;
+		inFile >> weight;
+		inFile >> height;
+		inFile >> age;
+		inFile >> gender;
+		inFile.ignore();
+//p obj created and brought to end of vector
+		Person p(name, personID, weight, height, age, gender);
+		members.push_back(p);
+//new ID is updated for new member
+		Person::setUniquePersonID(personID + 1);
+	}
+}
+
+//prints all the members
+void printListOfMembers(vector<Person> &members) {
+	cout << "List of Gym Members:" << endl;
+	for (size_t i = 0; i < members.size(); i++) {
+		cout << " " << (i+1) << ". ";
+		members[i].printMember(i+1);
+	}
+}
+//adds a new member to the database by each vae
+int addNewMember(vector<Person> &members) {
+    string newName;
+    int newWeight, newHeight, newAge, newGender;
+    
+    cin.ignore(1000, '\n');
+    
+    cout << "Enter name (first last): ";
+    getline(cin, newName);
+    
+    cout << "Enter gender (1 for male, 2 for female): ";
+    cin >> newGender;
+    
+    cout << "Enter weight (in lbs): ";
+    cin >> newWeight;
+    
+    cout << "Enter height (in inches): ";
+    cin >> newHeight;
+    
+    cout << "Enter age: ";
+    cin >> newAge;
+    
+    int newID = Person::getUniquePersonID();
+    Person newPerson(newName, newID, newWeight, newHeight, newAge, newGender);
+    members.push_back(newPerson);
+    Person::setUniquePersonID(newID + 1);
+    
+    cout << "Name: " << newPerson.getName() << endl;
+    cout << "ID: " << newPerson.getPersonID() << endl;
+    cout << "weight: " << newPerson.getWeight() << endl;
+    cout << "height: " << newPerson.getHeight() << endl;
+    cout << "age: " << newPerson.getAge() << endl;
+    cout << endl;
+    
+    return newID;
+}
+//prints out the information in complete of a pastor 
+void printMemberInfo(const vector<Person> &members, int personID) {
+    for (size_t i = 0; i < members.size(); i++) {
+        if (members[i].getPersonID() == personID) {
+            cout << "Name: " << members[i].getName() << endl;
+            cout << "ID: " << members[i].getPersonID() << endl;
+            cout << "weight: " << members[i].getWeight() << endl;
+            cout << "height: " << members[i].getHeight() << endl;
+            cout << "age: " << members[i].getAge() << endl;
+            cout << endl;  
+        }
+    }
+}

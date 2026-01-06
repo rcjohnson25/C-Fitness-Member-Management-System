@@ -1,0 +1,32 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file prints the menus to select which action to take next
+*/
+
+#include "defs.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
+void printMenu() {
+	cout << "1. Add new member" << endl <<
+		"2. Show list of members" << endl <<
+		"3. Show personal info" << endl <<
+		"4. Adjust personal info" << endl <<
+		"5. Calories per day to maintain current weight" << endl <<
+		"6. Choose exercise and see how many calories will be burned" << endl <<
+		"7. Quit program." << endl;
+	cout << endl;
+}
+
+void printPersonalMenu(const vector<Person> &members, int id) {
+    cout << "1. Adjust name: " << members[id-1].getName() << endl;
+    cout << "2. Adjust weight: " << members[id-1].getWeight() << endl;
+    cout << "3. Adjust height: " << members[id-1].getHeight() << endl;
+    cout << "4. Adjust age: " << members[id-1].getAge() << endl;
+    cout << "5. Finished adjusting personal info." << endl;
+    cout << endl;
+}

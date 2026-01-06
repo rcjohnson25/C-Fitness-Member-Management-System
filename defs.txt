@@ -1,0 +1,29 @@
+#ifndef DEFS_H
+#define DEFS_H
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include "Exercise.h"
+#include "Person.h" 
+
+using namespace std;
+
+#define NUM_ACTIVITIES 5
+
+void initializeExercises(vector<Exercise> &exercises, ifstream &inFile);
+void printListOfExercises(vector<Exercise> &exercises);
+
+void initializeMembers(vector<Person> &members, ifstream &inFile);
+void printListOfMembers(vector<Person> &members);
+int addNewMember(vector<Person> &members);
+void printMemberInfo(const vector<Person> &members, int memberID);
+
+void printMenu();
+void printPersonalMenu(const vector<Person> &members, int id);
+
+void initializeActivityLevels(vector<double> &activityLevels, ifstream &inFile);
+void caloriecalculator(vector<Person> &members, vector<double> &activityLevels, int memberID);
+
+#endif

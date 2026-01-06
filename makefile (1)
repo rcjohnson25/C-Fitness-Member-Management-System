@@ -1,0 +1,10 @@
+mainDriver: mainDriver.cpp Exercise.cpp exerciseFunctions.cpp getResults.cpp calculateCalories.cpp initActivityLevels.cpp memberFunctions.cpp menus.cpp Person.cpp
+	g++ -Wall -o mainDriver mainDriver.cpp Exercise.cpp exerciseFunctions.cpp getResults.cpp calculateCalories.cpp initActivityLevels.cpp memberFunctions.cpp menus.cpp Person.cpp -g
+
+# run has a target as a dependency: mainDriver
+mainDriverrun: mainDriver
+	./mainDriver members.txt  METs.txt  activityLevels.txt
+
+mainDriverclean:
+	rm -f mainDriver
+	rm -f output.txt

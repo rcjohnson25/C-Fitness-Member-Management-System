@@ -1,0 +1,36 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file was pre-made
+*/
+#ifndef EXERCISE_H
+#define EXERCISE_H
+
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+//code derived from class material
+
+class Exercise {
+        private:
+                string name;
+                double METvalue;
+        public:
+                Exercise() : name(""), METvalue(0.0) {}
+                Exercise( string Ename, double EMetvalue ) :
+                                    name(Ename), METvalue(EMetvalue) { }
+                Exercise( ifstream &inFile );
+                string getName() const { return name; }
+                double getMETvalue() const { return METvalue; }
+                void printExercise( int index ) const;
+};
+
+#endif

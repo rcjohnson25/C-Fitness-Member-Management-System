@@ -1,0 +1,31 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file prints is in pair with person.h
+*/
+#include "Person.h"
+#include "defs.h"
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+//inherited
+int Person::uniquePersonID = 0;
+
+void Person::printMember(int index) const {
+    cout << name << endl;
+    cout << " ID: " << personID << endl;
+    cout << " weight: " << weight << endl;
+    cout << " height: " << height << endl;
+    cout << " age: " << age << endl;
+}
+//get
+int Person::getUniquePersonID() {
+	return uniquePersonID;
+}
+//set
+void Person::setUniquePersonID(int newID) {
+	uniquePersonID = newID;
+}

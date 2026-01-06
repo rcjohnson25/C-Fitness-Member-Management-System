@@ -1,0 +1,101 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file creates person objects
+*/
+
+#ifndef PERSON_H
+#define PERSON_H
+
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+class Person {
+	private:
+//private variables 
+		string name;
+		int personID;
+		int weight;
+		int height;
+		int age;
+		int gender;
+		static int uniquePersonID;
+	public:
+//constructors
+		Person() : name(""), personID(0), weight(0), height(0), age(0), gender(0) {}
+		Person(string Pname, int PID, int Pweight, int Pheight, int Page, int Pgender) :
+			name(Pname), personID(PID), weight(Pweight), height(Pheight), age(Page), gender(Pgender) {}		
+		
+		static int getUniquePersonID();
+//setters
+		string getName() const {
+			return name;
+		}
+//getters
+		int getPersonID() const {
+                        return personID;
+                }
+
+		int getWeight() const {
+			return weight;
+		}
+
+		int getHeight() const {
+                        return height;
+                }
+
+		int getAge() const {
+                        return age;
+                }
+
+		int getGender() const {
+                        return gender;
+                }
+		
+		static void setUniquePersonID(int id);
+
+		void setName(string n) {
+			name = n;
+		}
+
+		void setPersonID(int pID) {
+			personID = pID;
+		}
+
+		void setWeight(int w) {
+			weight = w;
+		}
+
+		void setHeight(int h) {
+			height = h;
+		}
+
+		void setAge(int a) {
+			age = a;
+		}
+
+		void setGender(int g) {
+			gender = g;
+		}
+
+		void printMember(int index) const;
+};
+
+
+
+
+
+
+
+
+
+
+
+#endif

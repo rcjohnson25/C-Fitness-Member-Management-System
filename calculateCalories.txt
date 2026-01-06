@@ -1,0 +1,45 @@
+/*
+Robert Johnson
+CpSc 1071, Lab Section #002, Fall 2025
+PA3
+Due 12/06/2025
+This file calculated the calories used and maintained by gymgoers
+*/
+
+#include "defs.h"
+#include "Person.h"
+#include <iostream>
+#include <vector>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+//initialize vars
+void caloriecalculator(vector<Person> &members, vector<double> &activityLevels, int personID) {
+    int weight = members[personID-1].getWeight();
+    int height = members[personID-1].getHeight();
+    int age = members[personID-1].getAge();
+    int gender = members[personID-1].getGender();
+//math equations for conversti
+    double heightCm = height * 2.54;
+    double weightKg = weight / 2.205;
+//seperate by gender for bmr
+    double bmr;
+    if (gender == 1) {
+        bmr = (10 * weightKg + 6.25 * heightCm - 5 * age + 5);
+    }
+    else {
+        bmr = (10 * weightKg + 6.25 * heightCm - 5 * age - 161);
+    }
+//print bmr for a few cases
+    cout << "Your BMR (basal metabolic rate) is " << static_cast<int>(bmr+.5) << endl;
+    cout << "BMR represents the amount of calories you burn at rest." << endl;
+    cout << "\nTotal daily calories needed to maintain your current weight at a" << endl;
+    cout << "particular activity levels is your BMR * that activity level value:\n" << endl;
+//only method to getting desired number was static and +.5
+    cout << static_cast<int>(activityLevels[0] * bmr + .5) << " calories per day for sedentary" << endl;
+    cout << static_cast<int>(activityLevels[1] * bmr + .5) << " calories per day for light exercise" << endl;
+    cout << static_cast<int>(activityLevels[2] * bmr + .5) << " calories per day for moderate exercise" << endl;
+    cout << static_cast<int>(activityLevels[3] * bmr + .5) << " calories per day for heavy exercise" << endl;
+    cout << static_cast<int>(activityLevels[4] * bmr + .5) << " calories per day for athlete" << endl;
+    cout << endl;
+}
