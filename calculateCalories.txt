@@ -1,10 +1,4 @@
-/*
-Robert Johnson
-CpSc 1071, Lab Section #002, Fall 2025
-PA3
-Due 12/06/2025
-This file calculated the calories used and maintained by gymgoers
-*/
+/*This file calculated the calories used and maintained by gymgoers*/
 
 #include "defs.h"
 #include "Person.h"
