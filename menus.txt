@@ -1,10 +1,4 @@
-/*
-Robert Johnson
-CpSc 1071, Lab Section #002, Fall 2025
-PA3
-Due 12/06/2025
-This file prints the menus to select which action to take next
-*/
+/*This file prints the menus to select which action to take next*/
 
 #include "defs.h"
 #include <string>
